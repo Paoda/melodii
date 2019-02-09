@@ -16,7 +16,10 @@ export default class Modal extends React.Component {
 
   }
   render() {
-    console.log("Modal Created");
+    // Probably should remove once done with debugging
+    if (this.state.style.display === "flex") console.log("Modal Show")
+    else console.log("Modal Hide");
+
     return(
       <div 
       className="modal"
@@ -28,15 +31,11 @@ export default class Modal extends React.Component {
     )
   }
 
-  shouldComponentUpdate(nProps, nState) {
-    
-    return (
-      this.props.content !== nProps.content ||
-      this.state.display !== nState.style.display)
+  shouldComponentUpdate(props, state) {
+    return this.state.style.display !== state.style.display
   }
 
   handleClick() {
-    console.log("Dismissing Modal.");
     this.setState({
       style: { display: "none" }
     });
