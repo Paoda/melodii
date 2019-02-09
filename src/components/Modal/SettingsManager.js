@@ -4,11 +4,21 @@ import Modal from '../Modal';
 const Settings = window.require("electron-settings");
 
 export default class SettingsManager extends Modal {
-
+    constructor() {
+        super();
+        this.JSX =
+        <div className='settings-window'>
+            <form>
+                <h3>Settings</h3>
+                <label for="table-data">
+                    Delete Table Data: <input type="button" value="Delete" name="delete-table" id="delete-table-btn" />
+                </label>
+            </form>
+        </div>;
+    }
     render() {
-        const JSX = <div className='settings-window'>Hello</div>
         return(
-            <Modal content={JSX} />
+            <Modal content={this.JSX} />
         );
     }
 }

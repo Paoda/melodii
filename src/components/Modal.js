@@ -35,7 +35,9 @@ export default class Modal extends React.Component {
     return this.state.style.display !== state.style.display
   }
 
-  handleClick() {
+  handleClick(e) {
+    if(e.target.classList[0] !== "modal") return;
+
     this.setState({
       style: { display: "none" }
     });
