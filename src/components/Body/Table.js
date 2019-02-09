@@ -10,6 +10,8 @@ import Settings from 'electron-settings';
 var active = document.createElement("tr");
 active.classList.toggle("active");
 
+const usedTableIDs = [];
+
 const mp = new MusicPlayer();
 var JSXcache;
 
@@ -228,15 +230,36 @@ export async function generate(path, template) {
         }
 
         const t2 = performance.now();
-            console.log(
-                "Time Taken (Table Data Creation): " +
-                    Math.floor(t2 - t1) / 1000 +
-                    "s"
-            );
+        console.log(
+            "Time Taken (Table Data Creation): " +
+                Math.floor(t2 - t1) / 1000 +
+                "s"
+        );
 
-            return new Promise((res, rej) => {
-                res(table);
-            });
+        // assign unique ID to Table.
+
+        table.id = createID(25);
+
+        return new Promise((res, rej) => {
+            res(table);
+        });
+    }
+
+    function createID(length) {
+        const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let id;
+
+        do {
+            id = "";
+            for (let i = 0; i < length; i++) id += chars[randInt(0, chars.length)];
+        } while(usedTableIDs.includes(id));
+
+        usedTableIDs.push(id);
+        return id;
+
+        function randInt(min, max) {
+            return ~~(Math.random() * (max - min) + min);
+        }
     }
 }
 

@@ -25,6 +25,7 @@ export default class SettingsManager extends Modal {
                 <h3>Settings</h3>
                 <label htmlFor="table-data">
                     Delete Table Data: <input onClick={this.deleteTable.bind(this)} type="button" value="Delete" name="delete-table" id="delete-table-btn" />
+                    <br />
                     Regnerate Table Data: <input onClick={this.regenTable.bind(this)} type="button" value="Regenerate" name="regen-table" id="regen-table-btn" />
                 </label>
             </form>
@@ -39,12 +40,15 @@ export default class SettingsManager extends Modal {
 
     deleteTable() {
         if (Settings.has("tableJSON")) Settings.delete("tableJSON");
-        else console.warn("There was no Table Saved to Delete!");
+        else console.info("There was no Table Saved to Delete!");
 
-        Emitter.emit("newTable", this.template)
+        const template = this.template;
+
+        template.id = "-1"; //Impossible ID.
+
+        Emitter.emit("newTable", this.template);
 
     }
-
 
     /**
      * Regenerates a Table
@@ -52,9 +56,9 @@ export default class SettingsManager extends Modal {
      */
     async regenTable() {
         if (Settings.has("tableJSON")) Settings.delete("tableJSON");
-        else console.warn("there was no Table Saved to Delete!")
+        else console.info("There was no Table Saved to Delete!")
 
-        let tableJSON = await generate("C:\\Users\\Paoda\\Downloads", this.template);
+        const tableJSON = await generate("C:\\Users\\Paoda\\Downloads", this.template);
         
         Emitter.emit("newTable", tableJSON);
 

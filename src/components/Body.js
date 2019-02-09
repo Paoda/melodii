@@ -16,18 +16,23 @@ export default class Body extends React.Component {
 
     /** @listens Table#newTable loads new Table*/
     handleEvents() {
+        const self = this;
         Emitter.on("newTable", (obj, err) => {
             if (err) throw err;
-            this.setState({ table: obj });
+
+            console.log("newTable", obj);
+            debugger;
+            self.setState({ table: obj });
         });
     }
     componentWillMount() {
         this.initialize();
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.state.table !== nextState.table;
+    shouldComponentUpdate(nextProps, state) {
+        return this.state.table.id !== state.table.id;
     }
     render() {
+        console.warn("Render:", this.state.table);
         return (
             <div className="wrapper">
                 <div id="searchBar">
@@ -64,6 +69,7 @@ export default class Body extends React.Component {
         if (!Settings.has("tableJSON")) {
             let tableJSON = await generate("C:\\Users\\Paoda\\Downloads", template);
 
+            console.log("Initialize: ", tableJSON)
             this.setState({ table: tableJSON });
             saveTable(tableJSON);
 
