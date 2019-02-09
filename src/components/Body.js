@@ -1,10 +1,6 @@
 import React from "react";
-import Table from "./Body/Table";
-import Song from "../melodii/Song";
-import Filepath from "../melodii/Filepath";
-import Misc from "./MiscMethods";
+import Table, { generate, saveTable } from "./Body/Table";
 import Emitter from "../melodii/Events";
-import Modal from "./Modal";
 
 
 const Settings = window.require("electron-settings");
@@ -66,25 +62,11 @@ export default class Body extends React.Component {
         };
 
         if (!Settings.has("tableJSON")) {
-            let tableJSON = await this.generate(template);
+            let tableJSON = await generate("C:\\Users\\Paoda\\Downloads", template);
 
-            this.setState({
-                table: tableJSON
-            });
+            this.setState({ table: tableJSON });
+            saveTable(tableJSON);
 
-            let timestamp = Date.now();
-            Settings.set("tableJSON", {
-                data: tableJSON,
-                timestamp: timestamp
-            });
-
-            let date = new Date(timestamp);
-            console.log(
-                "Table data created at: " +
-                    date.toDateString() +
-                    " at " +
-                    date.toTimeString()
-            );
         } else {
             console.log("Data Loaded from Persistent Storage Space");
 
@@ -100,58 +82,6 @@ export default class Body extends React.Component {
                     date.toTimeString()
             );
         }
-    }
-
-    /**
-     * Generates Table From Scratch
-     * @param {Array<String>} template
-     * @return {Promise<} 
-     * @async
-     */
-    async generate(template) {
-        let filepath = new Filepath("C:\\Users\\Paoda\\Downloads");
-        let list = await filepath.getValidFiles();
-        console.log("Found " + list.length + "valid files.");
-        return new Promise(async (res, rej) => {
-            let temp = await this.generateBody(
-                template,
-                list,
-                0,
-                list.length - 1
-            );
-            res(temp);
-        });
-    }
-
-    /**
-     * Generates Body of Table from Scratch 
-     * @param {Object} tableArg Table Element 
-     * @param {Array<String>} arr Array of Valid Song Files 
-     * @param {Number} start of Array
-     * @param {Number} end of Array
-     * @return {Object} Table Object with Body Completely parsed.
-     * @async
-     */
-    async generateBody(tableArg, arr, start, end) {
-        let table = tableArg;
-        let t1 = performance.now();
-        let dom = document.getElementById("bad-search-syntax");
-        for (let i = 0; i <= end; i++) {
-            let song = new Song(arr[i]);
-            song = await Song.getMetadata(song);
-            table.tbody.push(Misc.formatMetadata(song, song.metadata));
-            dom.innerHTML = "Creating Table Data: " + ~~((i / end) * 100) + "%";
-        }
-        let t2 = performance.now();
-        console.log(
-            "Time Taken (Table Data Creation): " +
-                Math.floor(t2 - t1) / 1000 +
-                "s"
-        );
-
-        return new Promise((res, rej) => {
-            res(table);
-        });
     }
    
     /**
@@ -229,8 +159,6 @@ export default class Body extends React.Component {
     }
 
     openSettings() {
-        const settings = document.querySelector('.settings-window');
         Emitter.emit('loadModal');
-
     }
 }

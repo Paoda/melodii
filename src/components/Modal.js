@@ -1,6 +1,10 @@
 import React from 'react';
 import Emitter from '../melodii/Events';
 
+/**
+ * Brarebones Template for a Modal in Melodii
+ * - toggles between visible and not in order to dissapear and reappear.
+ */
 export default class Modal extends React.Component {
   constructor(props) {
     super(props);

@@ -3,6 +3,8 @@ import Song from "../../melodii/Song";
 import MusicPlayer from "../../melodii/MusicPlayer";
 import Misc from "../MiscMethods";
 import Emitter from "../../melodii/Events";
+import Filepath from "../../melodii/Filepath";
+import Settings from 'electron-settings';
 
 /** @type {HTMLElement} */
 var active = document.createElement("tr");
@@ -176,4 +178,82 @@ export default class Table extends React.Component {
             Song.setAlbumArt(song.metadata);
         }
     }
+}
+
+
+/**
+ * Generates Table From Scratch
+ * @param {Array<String>} template
+ * @return {Promise<} 
+ * @async
+ */
+export async function generate(path, template) {
+    const filepath = new Filepath(path);
+    const list = await filepath.getValidFiles();
+
+    console.log("Found " + list.length + " valid files.");
+
+    return new Promise(async (res, rej) => {
+        let temp = await generateBody(
+            template,
+            list,
+            0,
+            list.length - 1
+        );
+        res(temp);
+    });
+
+
+    /**
+     * Generates Body of Table from Scratch 
+     * @param {Object} tableArg Table Element 
+     * @param {Array<String>} arr Array of Valid Song Files 
+     * @param {Number} start of Array
+     * @param {Number} end of Array
+     * @return {Object} Table Object with Body Completely parsed.
+     * @async
+     */
+
+    async function generateBody(tableArg, arr, start, end) {
+        let table = tableArg;
+        const t1 = performance.now();
+        let dom = document.getElementById("bad-search-syntax");
+
+        for (let i = 0; i <= end; i++) {
+            let song = new Song(arr[i]);
+            song= await Song.getMetadata(song);
+
+            table.tbody.push(Misc.formatMetadata(song, song.metadata));
+            dom.innerHTML = "Creating Table Data: " + ~~((i / end) * 100) + "%";
+        }
+
+        const t2 = performance.now();
+            console.log(
+                "Time Taken (Table Data Creation): " +
+                    Math.floor(t2 - t1) / 1000 +
+                    "s"
+            );
+
+            return new Promise((res, rej) => {
+                res(table);
+            });
+    }
+}
+
+
+export function saveTable(tableJSON) {
+    const stamp = Date.now();
+
+    Settings.set("tableJSON", {
+        data: tableJSON,
+        timestamp: stamp
+    });
+
+    let date = new Date(stamp);
+    console.log(
+        "Table data created at: " +
+            date.toDateString() +
+            " at " +
+            date.toTimeString()
+    );
 }
