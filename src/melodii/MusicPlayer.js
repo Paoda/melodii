@@ -52,7 +52,7 @@ export default class MusicPlayer {
         try {
             this.element.src = this.getURICompatible(path);
             this.element.load();
-            console.log(path + " succesfully loaded");
+            console.log(path + " was succesfully loaded");
         } catch (e) {
             console.error(path + " failed to load: " + e.name);
         }
