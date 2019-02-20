@@ -19,6 +19,7 @@ export default class Modal extends React.Component {
     });
 
   }
+  
   render() {
     // Probably should remove once done with debugging
     if (this.state.style.display === "flex") console.log("Modal Show")

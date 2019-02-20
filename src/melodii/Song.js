@@ -49,7 +49,7 @@ export default class Song {
                 Emitter.emit('updateAlbumArt', noalbumart);
             }
         } else {
-            console.warn(metadata.common.title + ' des not have Album Art');
+            console.warn(metadata.common.title + ' does not have Album Art');
             Emitter.emit('updateAlbumArt', noalbumart);
         }
     }

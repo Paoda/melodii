@@ -215,7 +215,6 @@ export async function generate(path, template) {
      * @return {Object} Table Object with Body Completely parsed.
      * @async
      */
-
     async function generateBody(tableArg, arr, start, end) {
         let table = tableArg;
         const t1 = performance.now();
@@ -245,6 +244,12 @@ export async function generate(path, template) {
         });
     }
 
+    /**
+     * Creates a unique ID that is not UUID compliant.
+     * - used to distinguish table objects from one another. 
+     * @param {Number} length 
+     * @return {String}
+     */
     function createID(length) {
         const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         let id;
@@ -263,7 +268,11 @@ export async function generate(path, template) {
     }
 }
 
-
+/**
+ * Writes JSON to disk usnig ElectronSettings.
+ * - TODO: Switch to a Database for scalibility. 
+ * @param {JSON} tableJSON 
+ */
 export function saveTable(tableJSON) {
     const stamp = Date.now();
 

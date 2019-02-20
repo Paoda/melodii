@@ -2,10 +2,10 @@ import Song from './Song';
 import Playlist from './Playlist';
 
 /** @type {Array<Song>} */
-var archive = [];
+const archive = [];
 
 /** @type {Array<Playlist>} */
-let playlists = [];
+const playlists = [];
 
 /** @type {Song} */
 let currentSong;
