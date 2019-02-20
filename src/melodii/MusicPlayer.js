@@ -1,6 +1,7 @@
 import Emitter from "./Events";
 import SongArchive from "./SongArchive";
 import Song from './Song';
+import Playlist from "./Playlist";
 
 var mp = new Audio();
 var archive = new SongArchive();
@@ -9,12 +10,14 @@ export default class MusicPlayer {
     constructor() {
         this.element = mp;
         this.isPaused = false;
+
+        this.playlist = null;
     }
 
     /** Pauses Music and sets currentTime to 0. */
     stop() {
         this.pause();
-        this.isPaused = false;
+        this.isPaused = false;  
         this.element.currentTime = 0.0;
     }
 
@@ -39,10 +42,28 @@ export default class MusicPlayer {
         }
     }
 
+
+    /**
+     * 
+     * @param {Playlist} playlist 
+     */
+    load(playlist) {
+        const song = playlist.next();
+        let path = song.location;
+
+        try {
+            this.element.src = this.getURICompatible(path);
+            this.element.load();
+            console.log("'" + path + "'" + " from " + playlist.title + " was succesfully loaded");
+        } catch(e) { 
+            console.error(path + " failed to load " + e.name + " from " + playlist.title); 
+        }
+    }
+
     /** Loads Song
      * @param {Song} song
      */
-    load(song) {
+    loadSong(song) {
         if (archive.getCurrentSong() !== undefined)
             archive.add(archive.getCurrentSong());
         let path = song.location;

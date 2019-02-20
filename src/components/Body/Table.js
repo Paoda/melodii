@@ -1,7 +1,7 @@
 import React from "react";
 import Song from "../../melodii/Song";
 import MusicPlayer from "../../melodii/MusicPlayer";
-import Misc from "../MiscMethods";
+import Misc, { createID } from "../MiscMethods";
 import Emitter from "../../melodii/Events";
 import Filepath from "../../melodii/Filepath";
 import Settings from 'electron-settings';
@@ -9,8 +9,6 @@ import Settings from 'electron-settings';
 /** @type {HTMLElement} */
 var active = document.createElement("tr");
 active.classList.toggle("active");
-
-const usedTableIDs = [];
 
 const mp = new MusicPlayer();
 var JSXcache;
@@ -152,7 +150,7 @@ export default class Table extends React.Component {
             let filepath = e.currentTarget.dataset.filepath;
 
             let song = new Song(filepath);
-            mp.load(song);
+            mp.loadSong(song);
             mp.play();
 
             song = await Song.getMetadata(song);
@@ -173,7 +171,7 @@ export default class Table extends React.Component {
             let filepath = e.currentTarget.dataset.filepath;
 
             let song = new Song(filepath);
-            mp.load(song);
+            mp.loadSong(song);
             mp.play();
 
             song = await Song.getMetadata(song);
@@ -242,29 +240,6 @@ export async function generate(path, template) {
         return new Promise((res, rej) => {
             res(table);
         });
-    }
-
-    /**
-     * Creates a unique ID that is not UUID compliant.
-     * - used to distinguish table objects from one another. 
-     * @param {Number} length 
-     * @return {String}
-     */
-    function createID(length) {
-        const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        let id;
-
-        do {
-            id = "";
-            for (let i = 0; i < length; i++) id += chars[randInt(0, chars.length)];
-        } while(usedTableIDs.includes(id));
-
-        usedTableIDs.push(id);
-        return id;
-
-        function randInt(min, max) {
-            return ~~(Math.random() * (max - min) + min);
-        }
     }
 }
 

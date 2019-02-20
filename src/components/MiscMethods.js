@@ -1,5 +1,7 @@
 import Song from "../melodii/Song";
 
+const usedTableIDs = [];
+
 /**
  * - Every Method in this file must be Static and _probably_ Synchronous
  * - The Methods contained in this class must only be methods that don't really fit anywhere else
@@ -320,5 +322,28 @@ export default class MiscMethods {
         }
 
         return [stringA, stringB];
+    }
+}
+
+ /**
+ * Creates a unique ID that is not UUID compliant.
+ * - used to distinguish table objects from one another. 
+ * @param {Number} length 
+ * @return {String}
+*/
+export function createID(length) {
+    const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let id;
+
+    do {
+        id = "";
+        for (let i = 0; i < length; i++) id += chars[randInt(0, chars.length)];
+    } while(usedTableIDs.includes(id));
+
+    usedTableIDs.push(id);
+    return id;
+
+    function randInt(min, max) {
+        return ~~(Math.random() * (max - min) + min);
     }
 }

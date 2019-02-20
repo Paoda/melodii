@@ -29,12 +29,14 @@ export default class Body extends React.Component {
         this.initialize();
     }
     shouldComponentUpdate(nextProps, state) {
-        if (this.state.table.id) return this.state.table.id !== state.table.id;
+        if (this.state.table) return this.state.table.id !== state.table.id;
+        else return false;
         // On Feb 13 2019 Had problem wehre this.state.table.id was undefined.
         // Unable to replicate issue, but it's a serous one. Probably should fix this yeah?
     }
     render() {
-        console.log("Render TableID: " + this.state.table.id);
+        if (this.state.table) console.log("Render TableID: " + this.state.table.id);
+        else console.warn("No Table Present");
         return (
             <div className="wrapper">
                 <div id="searchBar">

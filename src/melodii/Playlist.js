@@ -1,5 +1,5 @@
 import Filepath from "./Filepath";
-import Misc from "../components/MiscMethods";
+import Misc, { createID } from "../components/MiscMethods";
 import Song from "./Song";
 
 export default class Playlist {
@@ -11,6 +11,22 @@ export default class Playlist {
      */
     constructor(title, path) {
         this.initialize(title, path);
+
+        this.id = createID(25);
+
+        this.songs = [];
+        this.currentSong;
+        this.songIndex = 0;
+
+
+    }
+
+    /**
+     * This method returns the "next" song in the playlist.
+     * @return {Song}
+     */
+    next() {  
+        return this.songs[this.songIndex++]; 
     }
 
     /**
@@ -49,5 +65,13 @@ export default class Playlist {
             }
             res(content);
         });
+    }
+
+    songs() {
+        return this.songs;
+    }
+
+    currentSong() {
+        return this.currentSong;
     }
 }
