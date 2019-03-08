@@ -19,7 +19,7 @@ var mp = new MusicPlayer();
 // const playlist = new Playlist("Test", "\\\\PAODA-SERVER\\Weeb_Home\\Music")
 // archive.add(null, playlist);
 
-const filepath = new Filepath("C:\\Users\\Paoda\\Downloads");
+const filepath = new Filepath("C:\\Users\\Paoda\\Downloads\\Music");
 
 (async () => {
     let list = await filepath.getValidFiles();

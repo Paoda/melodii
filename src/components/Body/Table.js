@@ -138,7 +138,7 @@ export default class Table extends React.Component {
     /**
      * Handles a Click on the Table
      * @param {MouseEvent} e
-     * @return {void}
+     * @return {Promise<void>}
      * @async
      */
     async handleClick(e) {
