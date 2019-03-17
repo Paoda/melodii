@@ -58,7 +58,7 @@ export default class SettingsManager extends Modal {
         if (Settings.has("tableJSON")) Settings.delete("tableJSON");
         else console.info("There was no Table Saved to Delete!")
 
-        const tableJSON = await generate("C:\\Users\\Paoda\\Downloads", this.template);
+        const tableJSON = await generate("C:\\Users\\Paoda\\Downloads\\Music", this.template);
         
         Emitter.emit("newTable", tableJSON);
 
