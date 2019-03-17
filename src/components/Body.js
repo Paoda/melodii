@@ -21,8 +21,8 @@ export default class Body extends React.Component {
             if (err) throw err;
 
             console.log("newTable", obj);
-            debugger;
             self.setState({ table: obj });
+
         });
     }
     componentWillMount() {
