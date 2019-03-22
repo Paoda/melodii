@@ -42,12 +42,7 @@ export default class SettingsManager extends Modal {
         // const template = this.template;
         // template.id = "-1" // Impossible ID
 
-        const template = {
-            thead: {
-                tr: ["Artist", "Title", "Album", "Year", "Genre", "Time"] //contains <th> strings
-            },
-            tbody: []
-        };
+        const template = JSON.parse(JSON.stringify(this.template)); // Deep Copy (why)
 
         if (Settings.has("tableJSON")) Settings.set("tableJSON", template);
         else console.info("There was no Table Saved to Delete!");
@@ -61,27 +56,7 @@ export default class SettingsManager extends Modal {
      * TODO: Make this a function w/ the one inside of Body.js
      */
     async regenTable() {
-
-        /*
-            Rather Large Problem w/ regenTable() and deleteTable()
-            I need const template to be a reference to a different object of this.template
-            (Pass by value instead of pass by reference)
-
-            Both deleteTable() and regenTable() modify this.table, which is not the intended behaviour.
-
-
-            Temporary soltuoin will be to define template in each funciton, but I need to figure out how to 
-            copy the object instead of reference the object.
-        */
-        // const template = this.template;
-        // template.id = "-1";
-
-        const template = {
-            thead: {
-                tr: ["Artist", "Title", "Album", "Year", "Genre", "Time"] //contains <th> strings
-            },
-            tbody: []
-        };
+        const template = JSON.parse(JSON.stringify(this.template)); // Deep Copy (why)
 
         if (Settings.has("tableJSON")) Settings.set("tableJSON", template);
         else console.info("There was no Table Saved to Delete!")
