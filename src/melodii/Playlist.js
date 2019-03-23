@@ -1,5 +1,5 @@
 import Filepath from "./Filepath";
-import Misc, { createID } from "../components/MiscMethods";
+import { createID, formatMetadata } from "../components/Misc";
 import Song from "./Song";
 
 export default class Playlist {
@@ -61,7 +61,7 @@ export default class Playlist {
             for (let i = 0; i < filepaths.length - 1; i++) {
                 let song = new Song(filepaths[i]);
                 song = await Song.getMetadata(song);
-                content.push(Misc.formatMetadata(song, song.metadata));
+                content.push(formatMetadata(song, song.metadata));
             }
             res(content);
         });

@@ -1,7 +1,7 @@
 import React from "react";
 import Song from "../../melodii/Song";
 import MusicPlayer from "../../melodii/MusicPlayer";
-import Misc, { createID } from "../MiscMethods";
+import { createID, sortTable, TableText, formatMetadata } from "../Misc";
 import Emitter from "../../melodii/Events";
 import Filepath from "../../melodii/Filepath";
 import Settings from 'electron-settings';
@@ -91,7 +91,7 @@ export default class Table extends React.Component {
      */
     handleSort(table, term) {
         const temp = table;
-        Emitter.emit("newTable", Misc.sortTable(temp, term));
+        Emitter.emit("newTable", sortTable(temp, term));
     }
 
     /**
@@ -113,22 +113,22 @@ export default class Table extends React.Component {
                 onKeyDown={this.handleKeyDown.bind(this)}
                 tabIndex="0">
                 <td id="text">
-                    {Misc.truncateText(obj.artist, maxWidth, "Roboto")}
+                    {TableText.truncateText(obj.artist, maxWidth, "Roboto")}
                 </td>
                 <td id="text">
-                    {Misc.truncateText(obj.title, maxWidth, "Roboto")}
+                    {TableText.truncateText(obj.title, maxWidth, "Roboto")}
                 </td>
                 <td id="text">
-                    {Misc.truncateText(obj.album, maxWidth, "Roboto")}
+                    {TableText.truncateText(obj.album, maxWidth, "Roboto")}
                 </td>
                 <td id="number">
-                    {Misc.truncateText(obj.year, maxWidth, "Roboto")}
+                    {TableText.truncateText(obj.year, maxWidth, "Roboto")}
                 </td>
                 <td id="text">
-                    {Misc.truncateText(obj.genre, maxWidth, "Roboto")}
+                    {TableText.truncateText(obj.genre, maxWidth, "Roboto")}
                 </td>
                 <td id="number">
-                    {Misc.truncateText(obj.time, maxWidth, "Roboto")}
+                    {TableText.truncateText(obj.time, maxWidth, "Roboto")}
                 </td>
             </tr>
         ));
@@ -221,8 +221,8 @@ export async function generate(path, template) {
         for (let i = 0; i <= end; i++) {
             let song = new Song(arr[i]);
             song= await Song.getMetadata(song);
-
-            table.tbody.push(Misc.formatMetadata(song, song.metadata));
+            
+            table.tbody.push(formatMetadata(song, song.metadata));
             dom.innerHTML = "Creating Table Data: " + ~~((i / end) * 100) + "%";
         }
 
