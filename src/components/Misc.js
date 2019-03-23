@@ -262,7 +262,7 @@ export function sortTable(table, term) {
             return a.year - b.year;
         });
     } else if (term === "time") {
-        //term == time convert the time into seconds
+        //term === time convert the time into seconds
         //The messy else if + else is becomes a.inSeconds || b.inSeconds can be undefined.
         tbody.sort((a, b) => {
             if (a.inSeconds && b.inSeconds) {

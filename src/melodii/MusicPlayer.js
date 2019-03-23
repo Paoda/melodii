@@ -49,21 +49,27 @@ export default class MusicPlayer {
      */
     load(playlist) {
         const song = playlist.next();
-        let path = song.location;
 
-        try {
-            this.element.src = this.getURICompatible(path);
-            this.element.load();
-            console.log("'" + path + "'" + " from " + playlist.title + " was succesfully loaded");
-        } catch(e) { 
-            console.error(path + " failed to load " + e.name + " from " + playlist.title); 
-        }
+        song.getMetadata().then(() => {
+            let path = song.location;
+    
+            try {
+                this.element.src = this.getURICompatible(path);
+                this.element.load();
+                console.log("'" + path + "'" + " from " + playlist.title + " was succesfully loaded");
+            } catch(e) { 
+                console.error(path + " failed to load " + e.name + " from " + playlist.title); 
+            }
+        })
     }
 
     /** Loads Song
      * @param {Song} song
      */
     loadSong(song) {
+
+        song.displayAlbumArt();
+
         if (archive.getCurrentSong() !== undefined)
             archive.add(archive.getCurrentSong());
         let path = song.location;

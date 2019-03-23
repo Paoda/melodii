@@ -24,17 +24,16 @@ const filepath = new Filepath("C:\\Users\\Paoda\\Downloads\\Music");
 (async () => {
     let list = await filepath.getValidFiles();
 
-    let song = new Song(list[~~(Math.random() * list.length)]);
-    song = await Song.getMetadata(song);
-    Song.setAlbumArt(song.metadata);
+    let song = new Song(list[~~(Math.random() * list.length)], true);
+    await song.getMetadata();
 
     mp.loadSong(song);
     // mp.play();
 
     mp.element.onended = async () => {
-        let song = new Song(list[~~(Math.random() * list.length)]);
-        song = await Song.getMetadata(song);
-        Song.setAlbumArt(song.metadata);
+        let song = new Song(list[~~(Math.random() * list.length)], true);
+        await song.getMetadata();
+
         mp.loadSong(song);
         mp.play();
     };

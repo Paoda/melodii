@@ -9,9 +9,84 @@ export default class Song {
      * @param {String} path 
      * @param {Boolean} ShouldAlbumArtExist 
      */
-    constructor(path, ShouldAlbumArtExist) { //whether album art should exist
+    constructor(path, shouldCreateAlbumArt = false) { //whether album art should exist
         this.location = path;
+        this.title = "";
+        this.unf_time = 0;
+        this.album = "";
+        this.year = 0;
+        this.genres = [];
+        this.genre = "";
+
+        this.albumArt = "";
+        this.albumArtPresent = false;
+
+        this.shouldCreateAlbumArt = shouldCreateAlbumArt;
     }
+
+    /**
+     * Gets Metadata from File.
+     */
+    getMetadata() {
+        return new Promise((res, rej) => {
+            mm.parseFile(this.location, { native: true, duration: true }).then((metadata) => {
+                
+                this.metadata = metadata;
+
+                console.log(metadata);
+
+                const format = metadata.format;
+                const common = metadata.common;
+
+
+                this.title = common.title || "";
+                this.unf_time = format.duration || 0;
+                this.album = common.album || "";
+                this.year = common.year || 0;
+                this.genre = common.genre ? common.genre.toString() : "";
+
+                if (this.shouldCreateAlbumArt) this.getAlbumArt(common.picture);
+                
+                
+                res();
+            }).catch((err) => rej(err));
+        });
+    }
+
+    /**
+     * Finds and Loads Album Art. Saves it to Song instance.
+     * TODO: Move the Event emission to only occur when the song is played.
+     * @param {*} picture 
+     */
+    getAlbumArt(picture) {
+        if (picture) {
+            if (picture.length > 0) {
+                console.log(picture);
+                const pic = picture[0];
+
+                this.albumArt = URL.createObjectURL(new Blob([pic.data], {
+                    'type': pic.format
+                }));
+                this.albumArtPresent = true;
+            } else console.error(this.title + ' Has Album Art, however, no data was found.');
+
+        } else console.warn(this.title, + ' does not have Album Art.');
+    }
+
+    displayAlbumArt() {
+        console.log("Album Art", this.albumArt);
+        console.log("Album Art is Present: ",  this.albumArtPresent)
+        if (this.albumArtPresent) Emitter.emit('updateAlbumArt', this.albumart);
+        else Emitter.emit('updateAlbumArt', noalbumart);
+    }
+
+    get time() {
+        let min = ~~((format.duration % 3600) / 60);
+        let sec = ~~(format.duration % 60);
+        if (sec < 10) sec = "0" + sec;
+        return min + ":" + sec;
+    }
+
 
     /**
      * Gets Metadata from Song

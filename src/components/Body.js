@@ -152,7 +152,7 @@ export default class Body extends React.Component {
                 term = parseInt(term, 10);
                 temp.tbody = table.tbody.filter(obj => obj.year === term);
             } else {
-                // type == time
+                // type === time
                 term = term.toLowerCase();
                 temp.tbody = table.tbody.filter(obj =>
                     obj.time.toLowerCase().includes(term)
