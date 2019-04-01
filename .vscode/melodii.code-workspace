@@ -4,5 +4,11 @@
 			"path": "../",
 			"name": "Source Code"
 		}
-	]
+	],
+	"extensions": {
+		"recommendations": [
+			"esbenp.prettier-vscode",
+			"dbaeumer.vscode-eslint",
+		]
+	}
 }
