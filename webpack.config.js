@@ -2,14 +2,12 @@ require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
 
-const absolutePath = path.resolve(__dirname, 'build');
-
 module.exports = {
   mode: process.env.NODE_ENV,
 
   entry: ['@babel/polyfill', './src/renderer.js'],
   output: {
-    path: absolutePath,
+    path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js'
   },
   module: {
@@ -39,7 +37,7 @@ module.exports = {
   devtool: 'inline-source-map',
   target: 'electron-renderer',
   devServer: {
-    contentBase: absolutePath,
+    contentBase: path.join(__dirname, 'build'),
     compress: true,
     port: process.env.PORT
   }
