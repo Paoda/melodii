@@ -73,4 +73,5 @@ typings/
 .serverless
 
 #Custom
-build/bundle.js
+build/
+!build/index.html
