@@ -16,10 +16,7 @@ import Archive from "./melodii/SongArchive";
 var archive = new Archive();
 var mp = new MusicPlayer();
 
-// const playlist = new Playlist("Test", "\\\\PAODA-SERVER\\Weeb_Home\\Music")
-// archive.add(null, playlist);
-
-const filepath = new Filepath("/home/paoda/Downloads/Music");
+const filepath = new Filepath(process.env.MUSIC_PATH);
 
 (async () => {
     let list = await filepath.getValidFiles();

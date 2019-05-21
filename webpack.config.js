@@ -1,4 +1,7 @@
 require('dotenv').config();
+const Dotenv = require('dotenv-webpack');
+
+
 const path = require('path');
 const webpack = require('webpack');
 
@@ -37,5 +40,8 @@ module.exports = {
     contentBase: path.join(__dirname, 'build'),
     compress: true,
     port: process.env.PORT
-  }
+  },
+  plugins: [
+    new Dotenv()
+  ]
 };

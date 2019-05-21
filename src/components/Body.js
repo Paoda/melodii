@@ -71,7 +71,7 @@ export default class Body extends React.Component {
         };
 
         if (!Settings.has("tableJSON")) {
-            let tableJSON = await generate("/home/paoda/Downloads/Music", template);
+            let tableJSON = await generate(process.env.MUSIC_PATH, template);
 
             console.log("Initialize: ", tableJSON)
             this.setState({ table: tableJSON });

@@ -61,7 +61,7 @@ export default class SettingsManager extends Modal {
         if (Settings.has("tableJSON")) Settings.set("tableJSON", template);
         else console.info("There was no Table Saved to Delete!")
 
-        const tableJSON = await generate("/home/paoda/Downloads/Music", template);
+        const tableJSON = await generate(process.env.MUSIC_PATH, template);
 
         Emitter.emit("newTable", tableJSON);
 
