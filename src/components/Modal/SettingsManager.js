@@ -3,7 +3,7 @@ import Modal from '../Modal';
 import Emitter from '../../melodii/Events';
 import { generate, saveTable } from '../Body/Table';
 
-const Settings = window.require("electron-settings");
+const Settings = require("electron-settings");
 
 /**
  * The Extension of the Modal Class which is responsible for

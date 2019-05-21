@@ -1,4 +1,4 @@
-const settings = window.require('electron-settings');
+const settings = require('electron-settings');
 
 class RichPresence {
     constructor(clientID, secret) {

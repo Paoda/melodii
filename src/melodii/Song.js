@@ -1,6 +1,6 @@
 import noalbumart from '../assets/img/noalbumart.png';
 import Emitter from './Events';
-const mm = window.require('music-metadata');
+const mm = require('music-metadata');
 
 export default class Song {
     

@@ -3,7 +3,7 @@ import Table, { generate, saveTable } from "./Body/Table";
 import Emitter from "../melodii/Events";
 
 
-const Settings = window.require("electron-settings");
+const Settings = require("electron-settings");
 
 export default class Body extends React.Component {
     constructor() {

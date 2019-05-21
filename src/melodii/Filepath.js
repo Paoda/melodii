@@ -1,5 +1,5 @@
 import os from "os";
-const fs = window.require("fs");
+const fs = require("fs");
 
 export default class Filepath {
 

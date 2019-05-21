@@ -1,8 +1,8 @@
 import API from "lastfmapi";
 
-const remote = window.require("electron").remote;
+const remote = require("electron").remote;
 const process = remote.getGlobal("process");
-const settings = window.require("electron-settings");
+const settings = require("electron-settings");
 
 /**
  * Handles all Supported https://last.fm API Functions

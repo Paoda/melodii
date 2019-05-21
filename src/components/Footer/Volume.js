@@ -1,7 +1,7 @@
 import React from "react";
 import MusicPlayer from "../../melodii/MusicPlayer";
 
-const Settings = window.require("electron-settings");
+const Settings = require("electron-settings");
 const mp = new MusicPlayer();
 
 export default class Volume extends React.Component {

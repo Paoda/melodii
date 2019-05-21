@@ -5,7 +5,7 @@ const { app, BrowserWindow } = require('electron');
 let win;
 
 function createWindow() {
-  win = new BrowserWindow({ width: 800, height: 600, frame: false, webPreferences: { webSecurity: false } }); //TODO: Please find a better solution for the love of god.
+  win = new BrowserWindow({ width: 800, height: 600, frame: false, webPreferences: { webSecurity: false, nodeIntegration: true } }); //TODO: Please find a better solution for the love of god.
 
   if (process.env.NODE_ENV === "development") win.loadURL(`http://localhost:${process.env.PORT}`);
   else win.loadFile('./build/index.html');
